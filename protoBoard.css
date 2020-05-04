@@ -1,0 +1,29 @@
+#test {
+    height: 80px;
+    width: 45px;
+    background-color: teal;
+    display: inline-block;
+    border: black 5px solid;
+    margin-left: auto;
+    margin-right: auto;
+}
+#gameBoard{
+    background-color: burlywood;
+    border: brown 5px solid;
+    height: 120px;
+    width: 520px;
+    margin-left: auto;
+    margin-right: auto;
+}
+.hand {
+    display: inline-block;
+    margin: 10px;
+    border: black 6px solid;
+    background-color: thistle;
+    height: 80px;
+    width: 55px;
+    font-size: 10px;
+    text-align: center;
+    padding: 5px;
+    overflow: hidden;
+}
