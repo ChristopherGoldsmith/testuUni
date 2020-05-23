@@ -8,10 +8,10 @@
     margin-right: auto;
 }
 #gameBoard{
-    background-color: burlywood;
+    background-color: green;
     border: brown 5px solid;
-    height: 120px;
-    width: 520px;
+    height: 300px;
+    width: 620px;
     margin-left: auto;
     margin-right: auto;
 }
@@ -19,11 +19,35 @@
     display: inline-block;
     margin: 10px;
     border: black 6px solid;
-    background-color: thistle;
-    height: 80px;
-    width: 55px;
+    background-color: brown;
+    height: 110px;
+    width: 75px;
     font-size: 12px;
     text-align: center;
     padding: 5px;
     overflow: hidden;
+}
+.cardImage{
+    height: 105px;
+    width: 69px;
+}
+#score{
+    font-size: 75px;
+    color: red;
+    text-shadow: -2px 0 black, 0 2px black, 2px 0 black, 0 -2px black;
+    padding: 5px;
+}
+.scoreAndButton{
+    height: 30px;
+    display: inline-block;
+}
+#gameButton{
+    background-color: yellow;
+    width: 150px;
+    font-size: 50px;
+    border: black 3px solid;
+}
+#gameButton:hover{
+    background-color: crimson;
+    border: white 3px solid;
 }

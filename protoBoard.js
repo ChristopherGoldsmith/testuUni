@@ -11,13 +11,8 @@ let deck = {
 let char = 0;
 let hand = [];
 let finalR = [];
-let score = 0;
-let winHand = false;
-//
-let gloop = function(){
-    return document.createElement()
-};
-//
+let score = 100;
+let drew = false;
 //randomizer and math functions
 var shuffle = function (array) {
 	var currentIndex = array.length;
@@ -71,7 +66,7 @@ let deck52 = [];
 
 //deck generting functions
 function deckGen(suit, value){
-    this.name = `The ${value} of ${suit}`
+    this.name = `${value}${suit}`
     this.suit = suit,
     this.value = value,
     this.matchV = [],
@@ -115,20 +110,24 @@ function draw(){
 function handPop(){
     j = 0;
     while (j < hand.length){
-        document.getElementById(`card${j + 1}`).innerHTML =`${hand[j].name}`
+        cardImg = `images/${hand[j].name}.jpg`;
+        srcImg = `cardImg${j + 1}`;
+        document.getElementById(srcImg).src = cardImg;
         j = j + 1;
     }
 }
 function delCard(n, m){
-    document.getElementById(`card${hand.length}`).innerHTML = '';
-    hand.splice(n, m);
-    handPop();
-    console.log(hand);
+    if(!drew){
+        document.getElementById(`cardImg${hand.length}`).src = 'images/chosen.jpg';
+        hand.splice(n, m);
+        handPop();
+        console.log(hand);
+    }
 };
 //Win condition and point functions
 function scoreUp(s){
     score += s;
-    document.getElementById('score').innerHTML = `${score}`
+    document.getElementById('score').innerHTML = `$${score}`
 };
 function matchingPlus(arr, matched){
     return arr.matchV.push(matched);
@@ -291,8 +290,18 @@ function checkValSame(arr){
     twoofKind();
     threeofKind();
  };
-
-
+function winCon(){
+    if(drew){
+        document.getElementById('gameButton').innerHTML = 'Deal'
+        checkValSame(hand);
+        drew = false;
+        scoreUp(-20);
+    }else{
+        document.getElementById('gameButton').innerHTML = 'Submit'
+        drew = true;
+        draw()
+    };
+}
 //startup functions
 document.onload = makeDeck();
 document.onload = draw();
