@@ -1,7 +1,5 @@
 // zones are hand, deck, discard, card pool, rfg, and opponents of all.  Common variables should be 
 // damage, speed, block, control
-
-//universal variables
 let turn = false;
 let deck = {
     oCount: 52,
@@ -46,24 +44,23 @@ function royalty(arr){
         }
     };
 }
+//SoundGen
+let sfx = {
+    win: new Audio('sfx/system01.ogg'),
+    lose: new Audio('sfx/badhand.mp3'),
+    select: new Audio('sfx/select.mp3')
+};
+function playSFX(aud){
+    aud.pause();
+    return aud.play()
+};
 // Deck Generatiom Code
-let two = 2;
-let three = 3;
-let four = 4;
-let five = 5;
-let six = 6;
-let seven = 7;
-let eight = 8;
-let nine = 9;
-let ten = 10;
-let jack = 11;
-let queen = 12;
-let king = 13;
-let ace = 14;
-let suits = ['Spades', 'Hearts', 'Clubs', 'Diamonds'];
-let value = [two, three, four, five, six, seven, eight, nine, ten, jack, queen, king, ace];
 let deck52 = [];
 
+let DGC = {
+suits: ['Spades', 'Hearts', 'Clubs', 'Diamonds'],
+value: [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]
+};
 //deck generting functions
 function deckGen(suit, value){
     this.name = `${value}${suit}`
@@ -74,9 +71,9 @@ function deckGen(suit, value){
 };
 
 function makeDeck(){
-    for(i = 0; i < suits.length; i++){
-        for(j = 0; j < value.length; j++){
-            deck52.push(new deckGen(suits[i], value[j]))
+    for(i = 0; i < DGC.suits.length; i++){
+        for(j = 0; j < DGC.value.length; j++){
+            deck52.push(new deckGen(DGC.suits[i], DGC.value[j]))
         }
     }
     shuffle(deck52);
@@ -122,18 +119,25 @@ function delCard(n, m){
         hand.splice(n, m);
         handPop();
         console.log(hand);
-    }
+        playSFX(sfx.select);
+    };
 };
 //Win condition and point functions
 function scoreUp(s){
     score += s;
     document.getElementById('score').innerHTML = `$${score}`
+    if( s <= 0){
+        return printOutcome('scoreboard', 'BUST');
+    };
 };
 function matchingPlus(arr, matched){
     return arr.matchV.push(matched);
 };
 function matchingSuit(arr, matched){
     return arr.matchS.push(matched);
+};
+function printOutcome(txt, out){
+    return document.getElementById(txt).innerHTML = out;
 };
 
 function checkValSame(arr){
@@ -147,11 +151,11 @@ function checkValSame(arr){
         cardValue = arr[i].value;
         cardSuit = arr[i].suit;
         for(x = 0; x < len; x++){
-            if(cardSuit == hand[x].suit/* && arr[i].name != hand[x].name*/)
+            if(cardSuit == hand[x].suit)
             matchingSuit(arr[i], hand[x]);
         };
         for(x = 0; x < len; x++){
-            if(cardValue == hand[x].value/* && arr[i].name != hand[x].name*/)
+            if(cardValue == hand[x].value)
             matchingPlus(arr[i], hand[x]);
         };
     };
@@ -171,7 +175,7 @@ function checkValSame(arr){
      };
      if(testy.length == 4){
          scoreUp(100);
-         return console.log(`Two of a Kind ${score}`);
+         return printOutcome('scoreboard', 'TWO OF A KIND');
      } else {
          console.log('conditions not met!')
      };
@@ -186,7 +190,7 @@ function checkValSame(arr){
      };
      if(testy.length == 3){
          scoreUp(500);
-         return console.log(`Three of a Kind ${score}`);
+         return printOutcome('scoreboard', 'THREE OF A KIND!');
      } else {
          console.log('conditions not met!')
      };
@@ -204,7 +208,7 @@ function checkValSame(arr){
      };
      if(testy.length == 5){
          scoreUp(1250);
-         return console.log(`Full House! ${score}`);
+         return printOutcome('scoreboard', 'FULL HOUSE!');
      } else {
          console.log('conditions not met!')
      };
@@ -219,7 +223,7 @@ function checkValSame(arr){
      };
      if(testy.length == 4){
          scoreUp(2500);
-         return console.log(`Four of a Kind ${score}`);
+         return printOutcome('scoreboard', 'FOUR OF A KIND!');
      } else {
          console.log('conditions not met!')
      };
@@ -234,7 +238,7 @@ function checkValSame(arr){
      };
      if(testy.length == 5){
          scoreUp(500);
-         return console.log(`Flush! ${score}`);
+         return printOutcome('scoreboard', 'FLUSH!');
      } else {
          console.log('conditions not met!')
      };
@@ -270,13 +274,13 @@ function checkValSame(arr){
      }
      if(testyStr.length == 5 && testy.length == 5 && !royal){
         scoreUp(50000) 
-        return console.log('ROYAL FLUSH!')
+        return printOutcome('scoreboard', 'ROYAL FLUSH!');
      }else if (testyStr.length == 5 && testy.length == 5){
         scoreUp(10000);
-        return console.log('Straight Flush!')
+        return printOutcome('scoreboard', 'STRAIGHT FLUSH!');
      } else if (testyStr.length == 5 && testy.length != 5){
          scoreUp(2000);
-         return console.log('Straight!')
+         return printOutcome('scoreboard', 'STRAIGHT');
      } else{
          return false;
      }
@@ -292,10 +296,11 @@ function checkValSame(arr){
  };
 function winCon(){
     if(drew){
+        scoreUp(-20);
         document.getElementById('gameButton').innerHTML = 'Deal'
         checkValSame(hand);
         drew = false;
-        scoreUp(-20);
+
     }else{
         document.getElementById('gameButton').innerHTML = 'Submit'
         drew = true;

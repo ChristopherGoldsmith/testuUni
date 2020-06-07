@@ -7,6 +7,20 @@
     margin-left: auto;
     margin-right: auto;
 }
+#scoreboard{
+    background-color: black;
+    border: brown 5px solid;
+    width: 465px;
+    height: 75px;
+    font-size: 50px;
+    color: orangered;
+    margin-left: auto;
+    margin-right: auto;
+    text-shadow: -1px 0 brown, 0 1px brown, 1px 0 brown, 0 -1px brown;
+    text-align: center;
+    padding: 10px;
+    overflow: hidden;
+}
 #gameBoard{
     background-color: green;
     border: brown 5px solid;
@@ -18,8 +32,8 @@
 .hand {
     display: inline-block;
     margin: 10px;
-    border: black 6px solid;
-    background-color: brown;
+    border: green 6px solid;
+    background-color: green;
     height: 110px;
     width: 75px;
     font-size: 12px;
@@ -27,9 +41,13 @@
     padding: 5px;
     overflow: hidden;
 }
+.hand:hover{
+    background-color: indianred;
+}
 .cardImage{
     height: 105px;
     width: 69px;
+    border: black 1px solid;
 }
 #score{
     font-size: 75px;
@@ -46,6 +64,7 @@
     width: 150px;
     font-size: 50px;
     border: black 3px solid;
+    text-align: center;
 }
 #gameButton:hover{
     background-color: crimson;
